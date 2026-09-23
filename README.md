@@ -5,7 +5,7 @@ Statički sajt, spreman za GitHub Pages.
 - index.html: početna
 - nasa-prica.html: Naša priča
 - meni.html: Meni
-- images/: sve slike
+- *.webp, *.jpg: slike (u korenu, pored stranica)
 - support.js, image-slot.js: skripte koje stranice koriste
 - .image-slots.state.json: kadriranje fotografija (ne brisati)
 - .nojekyll: potreban da GitHub Pages ne sakrije fajl iznad (ne brisati)
