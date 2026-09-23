@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <style>
+    body { margin: 0; scroll-behavior: smooth; }
+    @media (max-width: 800px) {
+      .hero-pizza { width: 112vw !important; height: 112vw !important; min-width: 112vw !important; flex-shrink: 0 !important; transform: translateY(48%) !important; }
+      .review-stage > div { padding: 0 56px !important; box-sizing: border-box !important; }
+      .review-stage p { font-size: 20px !important; }
+      .prica-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+      .award-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+      .rez-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .rez-sub { grid-template-columns: 1fr !important; }
+    }
+    .site-nav .nav-burger { display: none !important; }
+    @media (max-width: 800px) {
+      .site-nav .nav-burger { display: flex !important; }
+      .site-nav .nav-links { display: none !important; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start !important; gap: 20px !important; padding: 16px 24px 28px; background: #232B1E; z-index: 20; }
+      .site-nav[data-open="true"] .nav-links { display: flex !important; }
+      .site-nav .nav-links a { font-size: 16px !important; }
+    }
+    @media (max-width: 800px) { .visit-grid { grid-template-columns: 1fr !important; padding: 64px 24px !important; gap: 32px !important; } .visit-map { height: 320px !important; } }
+    @media (max-width: 700px) { .pz-grid { padding: 0 24px !important; gap: 56px !important; } }
+    .rez-input { background: transparent; border: none; border-bottom: 1px solid #C4B9A3; color: #232B1E; font-family: 'Work Sans', sans-serif; font-size: 15px; padding: 10px 2px; width: 100%; outline: none; transition: border-color 200ms ease; box-sizing: border-box; }
+    .rez-input::placeholder { color: #4A5240; }
+    .rez-input:focus { border-color: #232B1E; }
+    .rez-input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; }
+    .rez-chip { background: transparent; border: 1px solid #C4B9A3; color: #232B1E; font-family: 'Work Sans', sans-serif; font-size: 13px; padding: 8px 4px; cursor: pointer; transition: all 200ms ease; }
+    .rez-chip:hover { border-color: #A9C17A; }
+    .rez-chip.active { background: #232B1E; border-color: #232B1E; color: #DDD3BF; font-weight: 600; }
+    .rez-stepper-btn { width: 34px; height: 34px; border: 1px solid #C4B9A3; background: transparent; color: #232B1E; font-size: 16px; cursor: pointer; transition: border-color 200ms ease; }
+    .rez-stepper-btn:hover { border-color: #A9C17A; }
+    @keyframes glowPulse { 0%,100% { opacity:.55; transform: translate(-50%,-50%) scale(1); } 50% { opacity:.85; transform: translate(-50%,-50%) scale(1.08); } }
+    @keyframes floatA { 0%,100% { transform: translate(0,0) rotate(-4deg); } 50% { transform: translate(-8px,-18px) rotate(3deg); } }
+    @keyframes floatB { 0%,100% { transform: translate(0,0) rotate(5deg); } 50% { transform: translate(10px,-14px) rotate(-4deg); } }
+    @keyframes floatC { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-6px,-12px) rotate(6deg); } }
+    @keyframes steamRise { 0% { transform: translate(-50%,0) scale(.8); opacity:0; } 20% { opacity:.35; } 80% { opacity:.12; } 100% { transform: translate(-50%,-140px) scale(1.3); opacity:0; } }
+    @keyframes grainShift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-2%,1%); } }
+    @keyframes medalShine { 0% { transform: translateX(-140%) rotate(20deg); opacity: 0; } 15% { opacity: 0.9; } 55% { opacity: 0.9; } 100% { transform: translateX(140%) rotate(20deg); opacity: 0; } }
+    a { color: #B3282D; text-decoration: none; }
+    a:hover { color: #A9C17A; }
+    image-slot::part(frame) { background: transparent !important; }
+    image-slot::part(ring) { display: none !important; }
+
+  </style>
+</helmet>
+<div style="position:relative;width:100%;height:100vh;background:#232B1E;overflow:hidden;font-family:'Work Sans',sans-serif;color:#F7F2E8;isolation:isolate;display:flex;flex-direction:column;">
+  <div style="position: absolute; inset: -10%; opacity: 0.05; background-image: url('data:image/svg+xml;utf8,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22&gt;&lt;filter id=%22n%22&gt;&lt;feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/&gt;&lt;/filter&gt;&lt;rect width=%22120%22 height=%22120%22 filter=%22url(%23n)%22/&gt;&lt;/svg&gt;'); animation: grainShift 9s ease-in-out infinite; pointer-events: none; mix-blend-mode: overlay; width: 1357px; height: 1227px"></div>
+
+  <nav class="site-nav" data-open="{{ menuOpen }}" style="position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(12px,2vh,20px) clamp(24px,5.5vw,80px);flex-wrap:nowrap;flex-shrink:0;">
+    <div style="font-family: 'Playfair Display',serif; font-style: normal; font-weight: 600; font-size: 20px; letter-spacing: 0.5px; color: #F7F2E8; white-space: nowrap; text-transform: uppercase">Tiffany Pizzeria</div>
+    <button class="nav-burger" aria-label="Meni" onClick="{{ toggleMenu }}" style="display:none;width:44px;height:44px;align-items:center;justify-content:center;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:0;"><span style="display:block;width:22px;height:1.5px;background:#F7F2E8;"></span><span style="display:block;width:22px;height:1.5px;background:#F7F2E8;"></span><span style="display:block;width:22px;height:1.5px;background:#F7F2E8;"></span></button>
+    <div class="nav-links" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:clamp(10px,2vw,32px);flex-wrap:nowrap;">
+      <a href="./meni.html" style="font-size:14px;letter-spacing:0.5px;color:#F7F2E8;white-space:nowrap;transition:color 200ms ease;" style-hover="color:#A9C17A;">Meni</a>
+      <a href="#prica" style="font-size:14px;letter-spacing:0.5px;color:#F7F2E8;white-space:nowrap;transition:color 200ms ease;" style-hover="color:#A9C17A;">Naša priča</a>
+      <a href="#rezervacija" style="font-size:14px;letter-spacing:0.5px;color:#F7F2E8;white-space:nowrap;transition:color 200ms ease;" style-hover="color:#A9C17A;">Kontakt</a>
+      <a href="#rezervacija" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:10px 22px;font-size:13px;background:#A9C17A;border:1px solid #A9C17A;color:#232B1E;" style-hover="background:#97AF68;border-color:#97AF68;color:#232B1E;">Rezerviši sto</a>
+    </div>
+  </nav>
+
+  
+
+  <div style="position:relative;z-index:3;text-align:center;padding:clamp(40px,8vh,80px) 20px 0;flex-shrink:0;">
+    <div style="font-family: 'Playfair Display',serif; font-style: italic; font-weight: 500; font-size: clamp(40px,5.2vw,64px); line-height: 1.06; max-width: 960px; margin: 0 auto; text-wrap: pretty">Ukus tradicije u svakom zalogaju.</div>
+    
+    <a href="#rezervacija" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:14px 32px;font-size:14px;background:#A9C17A;border:1px solid #A9C17A;color:#232B1E;margin-top:32px;" style-hover="background:#97AF68;border-color:#97AF68;color:#232B1E;">Rezerviši sto</a>
+  </div><div style="position:relative;z-index:3;display:flex;justify-content:center;gap:clamp(10px,2.5vw,30px);flex-wrap:wrap;padding:clamp(64px,9vh,104px) 20px 0;flex-shrink:0;">
+    <sc-for list="{{ flavors }}" as="f" hint-placeholder-count="6">
+      <button onClick="{{ f.onSelect }}" style="{{ f.nameStyle }}">{{ f.name }}</button>
+    </sc-for>
+  </div>
+
+  <div style="position: relative; z-index: 2; margin-top: 0px; flex: 1 1 auto; min-height: 0; display: flex; align-items: flex-end; justify-content: center; width: 100%; overflow: hidden;">
+    <div class="hero-pizza" style="position:relative;width:clamp(480px,66vw,760px);height:clamp(480px,66vw,760px);transform:translateY(52%);">
+
+      <div style="position:absolute;left:38%;top:6%;width:26px;height:70px;border-radius:50%;background:rgba(247,242,232,0.4);filter:blur(6px);animation:steamRise 5s ease-in infinite;"></div>
+      <div style="position:absolute;left:58%;top:2%;width:20px;height:60px;border-radius:50%;background:rgba(247,242,232,0.35);filter:blur(6px);animation:steamRise 5.5s ease-in infinite 1.2s;"></div>
+      <div style="position:absolute;left:48%;top:10%;width:22px;height:50px;border-radius:50%;background:rgba(247,242,232,0.3);filter:blur(5px);animation:steamRise 4.8s ease-in infinite 2.4s;"></div>
+
+      <sc-for list="{{ flavors }}" as="f" hint-placeholder-count="6">
+        <div style="{{ f.slotStyle }}">
+          <image-slot id="pizza-{{ f.slug }}" shape="circle" placeholder="{{ f.placeholderLabel }}" src="{{ f.src }}" style="width:100%;height:100%;"></image-slot>
+        </div>
+      </sc-for>
+
+      <div style="position:absolute;left:-6%;top:14%;width:clamp(50px,8vw,72px);height:clamp(50px,8vw,72px);animation:floatA 6s ease-in-out infinite;">
+        
+      </div>
+      <div style="position:absolute;right:-8%;top:30%;width:clamp(46px,7vw,64px);height:clamp(46px,7vw,64px);animation:floatB 7s ease-in-out infinite 0.6s;">
+        
+      </div>
+      <div style="position:absolute;left:6%;bottom:4%;width:clamp(40px,6vw,56px);height:clamp(40px,6vw,56px);animation:floatC 6.5s ease-in-out infinite 1.4s;">
+        <image-slot id="ingredient-basil-2" shape="rect" placeholder="bosiljak (PNG, transparent)" style="background:transparent;" src="images/590026bb.webp"></image-slot>
+      </div>
+
+      
+      
+    </div>
+  </div>
+
+  <div style="height:clamp(8px,1.5vh,16px);flex-shrink:0;"></div>
+
+</div>
+
+<div id="prica" style="position:relative;width:100%;background:#1B2217;overflow:hidden;font-family:'Work Sans',sans-serif;color:#F7F2E8;isolation:isolate;">
+
+  <div style="position:absolute;top:10%;right:8%;width:34px;height:34px;animation:floatA 7s ease-in-out infinite;opacity:0.9;z-index:2;">
+    
+  </div>
+
+  
+<div class="prica-grid" style="position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:stretch;padding:clamp(80px,11vh,120px) clamp(24px,5.5vw,80px);">
+    <div style="align-self:center;">
+      <div style="font-family:'Work Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:16px;">Naša priča</div>
+      <div style="font-family: 'Playfair Display',serif; font-style: italic; font-weight: 500; font-size: clamp(32px,4vw,48px); line-height: 1.15; margin-bottom: 20px; text-wrap: pretty; max-width: 480px;">Vatra, testo i porodični zanat.</div>
+      <p style="font-size: 16px; line-height: 1.7; color: #CFC6B4; font-weight: 300; max-width: 480px; margin: 0 0 28px;">Sve počinje od italijanske peći na drva i testa koje odstoji satima da bi dobilo svoj karakter. Naši pizza majstori nagrađivani su na regionalnim i evropskim takmičenjima, ali ono što ih najviše ispunjava je pogled gosta pri prvom zalogaju.</p>
+      <a href="./nasa-prica.html" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:14px 32px;font-size:14px;background:#A9C17A;border:1px solid #A9C17A;color:#232B1E;" style-hover="background:#97AF68;border-color:#97AF68;color:#232B1E;">Upoznaj našu priču</a>
+    </div>
+    <div style="position:relative;width:100%;min-height:320px;border-radius:18px;overflow:hidden;">
+      <image-slot id="story-photo" shape="rounded" radius="18" fit="cover" placeholder="fotografija: peć na drva / pizza majstor / detalj testa" src="images/tiffany-1.jpg" style="position:absolute;inset:0;width:100%;height:100%;filter: sepia(0.2) saturate(1.05) contrast(1.05) brightness(0.92);"></image-slot>
+    </div>
+  </div></div>
+
+<div id="izdvojene" style="position:relative;width:100%;background:#DDD3BF;overflow:hidden;font-family:'Work Sans',sans-serif;color:#232B1E;isolation:isolate;padding:clamp(80px,11vh,120px) 0;">
+
+
+
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;text-align:center;padding:0 24px clamp(50px,8vh,90px);">
+    <div style="font-family:'Work Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:16px;">Izdvojene pice</div>
+    <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(32px,4vw,48px);line-height:1.15;text-wrap:pretty;">Ukusi koji definišu Tiffany.</div>
+  </div>
+
+  
+
+  <div class="pz-grid" style="position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(max(280px,calc(50% - 40px)),1fr));gap:80px;align-items:start;padding:0 clamp(24px,5.5vw,80px);">
+
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="pizza-reveal" id="reveal-tiffany2" style="{{ revealStyle.tiffany2 }}">
+        <div style="width:clamp(240px,30vw,400px);aspect-ratio:1/1;transition:transform 700ms cubic-bezier(.22,1,.36,1);" style-hover="transform:rotate(10deg) scale(1.04);">
+          <image-slot id="feature-tiffany2" shape="circle" placeholder="Tiffany (signature): pizza foto (transparent PNG)" src="images/6252629e.webp" style="display:block;width:100%;height:100%;"></image-slot>
+        </div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(24px,2.8vw,32px);margin:28px 0 10px;">Tiffany (signature)</div>
+      <p style="font-size: 16px; line-height: 1.6; color: #4A5240; font-weight: 300; max-width: 420px; margin: 0; text-wrap: pretty">Tartufi, burata, pršut i rukola, naš potpis od prve do poslednje kriške.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="pizza-reveal" id="reveal-crudo" style="{{ revealStyle.crudo }}">
+        <div style="width:clamp(240px,30vw,400px);aspect-ratio:1/1;transition:transform 700ms cubic-bezier(.22,1,.36,1);" style-hover="transform:rotate(10deg) scale(1.04);">
+          <image-slot id="feature-crudo" shape="circle" placeholder="Crudo e Rucola: pizza foto (transparent PNG)" src="images/582c76c3.webp" style="display:block;width:100%;height:100%;"></image-slot>
+        </div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(24px,2.8vw,32px);margin:28px 0 10px;">Crudo e Rucola</div>
+      <p style="font-size: 16px; line-height: 1.6; color: #4A5240; font-weight: 300; max-width: 420px; margin: 0; text-wrap: pretty">Pršut crudo, sveža rukola i listići parmezana preko fior di latte mocarele, elegantno i lagano.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="pizza-reveal" id="reveal-lardo" style="{{ revealStyle.lardo }}">
+        <div style="width:clamp(240px,30vw,400px);aspect-ratio:1/1;transition:transform 700ms cubic-bezier(.22,1,.36,1);" style-hover="transform:rotate(10deg) scale(1.04);">
+          <image-slot id="feature-lardo" shape="circle" placeholder="Lardo: pizza foto (transparent PNG)" src="images/d9f54c87.webp" style="display:block;width:100%;height:100%;"></image-slot>
+        </div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(24px,2.8vw,32px);margin:28px 0 10px;">Lardo</div>
+      <p style="font-size: 16px; line-height: 1.6; color: #4A5240; font-weight: 300; max-width: 420px; margin: 0; text-wrap: pretty">Prozirne kriške lardo slanine, mocarela i ružmarin,&nbsp; topi se na jeziku pravo iz peći.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="pizza-reveal" id="reveal-mafioso" style="{{ revealStyle.mafioso }}">
+        <div style="width:clamp(240px,30vw,400px);aspect-ratio:1/1;transition:transform 700ms cubic-bezier(.22,1,.36,1);" style-hover="transform:rotate(10deg) scale(1.04);">
+          <image-slot id="feature-mafioso" shape="circle" placeholder="Mafioso: pizza foto (transparent PNG)" src="images/46b71423.webp" style="display:block;width:100%;height:100%;"></image-slot>
+        </div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(24px,2.8vw,32px);margin:28px 0 10px;">Mafioso</div>
+      <p style="font-size: 16px; line-height: 1.6; color: #4A5240; font-weight: 300; max-width: 420px; margin: 0; text-wrap: pretty">Ventrikina salama, dimljena skamorca i čili ulje, za one koji ne prave kompromise sa ukusom.</p>
+    </div>
+
+  </div><div style="position:relative;z-index:1;text-align:center;padding:clamp(56px,9vh,96px) 24px 0;">
+    <a href="./meni.html" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:14px 32px;font-size:14px;background:#232B1E;border:1px solid #232B1E;color:#DDD3BF;" style-hover="background:#34402C;border-color:#34402C;color:#DDD3BF;">Pogledaj ceo meni</a>
+  </div>
+</div>
+
+<div id="nagrade" style="position: relative; width: 100%; background: #232B1E; overflow: hidden; font-family: 'Work Sans',sans-serif; color: #F7F2E8; isolation: isolate; padding: clamp(80px,11vh,120px) 0;">
+  <div style="position:relative;z-index:1;max-width:760px;margin:0 auto;text-align:center;padding:0 24px clamp(56px,8vh,84px);">
+    <div style="font-family:'Work Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:16px;">Priznanja · 2024</div>
+    <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(32px,4vw,48px);line-height:1.15;margin-bottom:16px;text-wrap:pretty;">Ukus koji se dokazao na sceni.</div>
+    <p style="font-size:16px;line-height:1.6;color:#CFC6B4;font-weight:300;">Tri međunarodna takmičenja, ista peć na drva i isto testo umešeno u 5 ujutru.</p>
+  </div>
+
+  <div style="position:relative;z-index:1;max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,40px);padding:0 clamp(24px,5.5vw,80px) clamp(64px,9vh,96px);border-bottom:1px solid #A9C17A40;">
+    <sc-for list="{{ counters }}" as="c" hint-placeholder-count="3">
+      <div style="text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:clamp(36px,5vw,52px);color:#F7F2E8;line-height:1;margin-bottom:10px;">{{ c.display }}</div>
+        <div style="font-size:12.5px;letter-spacing:0.5px;color:#CFC6B4;">{{ c.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div class="award-grid" style="position: relative; z-index: 1; max-width: 1140px; margin: clamp(56px,8vh,80px) auto 0; display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(28px,4vw,48px); padding: 0 clamp(24px,5.5vw,80px)">
+
+    <div style="border-top:1px solid #A9C17A66;padding-top:28px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9C17A" stroke-width="1.4"><path d="M8 2h8l-1 7a3 3 0 0 1-6 0L8 2z"></path><path d="M9 15h6v3a3 3 0 0 1-6 0v-3z"></path><path d="M12 15v3"></path></svg>
+        <span style="font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:#CFC6B4;">Rim, 2024</span>
+      </div>
+      <div style="position:relative;aspect-ratio:4/3;width:100%;margin-bottom:20px;overflow:hidden;">
+        <image-slot id="award-rome" shape="rect" fit="cover" placeholder="Đuro i Branka Kubet sa peharom" src="images/9a2bdce3.webp" style="position:absolute;inset:0;width:100%;height:100%;filter:grayscale(1) sepia(0.35) contrast(1.05) brightness(0.95);"></image-slot>
+        <div style="position:absolute;inset:0;box-shadow:inset 0 0 60px 20px #1B2217cc;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;border:1px solid #A9C17A66;pointer-events:none;"></div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;margin-bottom:8px;">1. mesto, Pica Klasik</div>
+      <p style="font-size:13.5px;line-height:1.6;color:#CFC6B4;font-weight:300;margin:0;">Tiffany Diavolo, sa domaćom kobasicom.</p>
+    </div>
+
+    <div style="border-top:1px solid #A9C17A66;padding-top:28px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9C17A" stroke-width="1.4"><path d="M8 2h8l-1 7a3 3 0 0 1-6 0L8 2z"></path><path d="M9 15h6v3a3 3 0 0 1-6 0v-3z"></path><path d="M12 15v3"></path></svg>
+        <span style="font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:#CFC6B4;">Rumunija, 2024</span>
+      </div>
+      <div style="position:relative;aspect-ratio:4/3;width:100%;margin-bottom:20px;overflow:hidden;">
+        <image-slot id="award-romania" shape="rect" fit="cover" placeholder="Rumunija 2024: fotografija / diploma" src="images/f73e2f3c.webp" style="position:absolute;inset:0;width:100%;height:100%;filter:grayscale(1) sepia(0.35) contrast(1.05) brightness(0.95);"></image-slot>
+        <div style="position:absolute;inset:0;box-shadow:inset 0 0 60px 20px #1B2217cc;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;border:1px solid #A9C17A66;pointer-events:none;"></div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;margin-bottom:8px;">Dva 1. mesta, Napolitana &amp; Klasik</div>
+      <p style="font-size:13.5px;line-height:1.6;color:#CFC6B4;font-weight:300;margin:0;">Dve pobede, isto veče takmičenja.</p>
+    </div>
+
+    <div style="border-top:1px solid #A9C17A66;padding-top:28px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9C17A" stroke-width="1.4"><path d="M8 2h8l-1 7a3 3 0 0 1-6 0L8 2z"></path><path d="M9 15h6v3a3 3 0 0 1-6 0v-3z"></path><path d="M12 15v3"></path></svg>
+        <span style="font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:#CFC6B4;">Gastro festival Niš, 2024</span>
+      </div>
+      <div style="position:relative;aspect-ratio:4/3;width:100%;margin-bottom:20px;overflow:hidden;">
+        <image-slot id="award-nis" shape="rect" fit="cover" placeholder="Niš 2024: fotografija / diploma" src="images/424e0447.webp" style="position:absolute;inset:0;width:100%;height:100%;filter:grayscale(1) sepia(0.35) contrast(1.05) brightness(0.95);"></image-slot>
+        <div style="position:absolute;inset:0;box-shadow:inset 0 0 60px 20px #1B2217cc;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;border:1px solid #A9C17A66;pointer-events:none;"></div>
+      </div>
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;margin-bottom:8px;">Apsolutni šampion</div>
+      <p style="font-size:13.5px;line-height:1.6;color:#CFC6B4;font-weight:300;margin:0;">Ervin, pizza majstor u Tiffany timu.</p>
+    </div>
+
+  </div>
+</div>
+
+<div id="recenzije" style="position:relative;width:100%;background:#1B2217;overflow:hidden;font-family:'Work Sans',sans-serif;color:#F7F2E8;isolation:isolate;padding:clamp(80px,11vh,120px) 0;">
+
+  <div style="position:relative;z-index:1;max-width:900px;margin:0 auto;text-align:center;padding:0 24px 40px;">
+    
+  </div>
+
+  <div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;height:clamp(260px,32vh,320px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+
+    <button onClick="{{ reviewPrev }}" style="position:absolute;left:clamp(4px,1.5vw,16px);top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid #A9C17A66;background:#1B2217;color:#F7F2E8;font-size:18px;font-family:'Playfair Display',serif;cursor:pointer;z-index:5;transition:border-color 200ms ease,color 200ms ease;" style-hover="border-color:#A9C17A;color:#A9C17A;">‹</button>
+    <button onClick="{{ reviewNext }}" style="position:absolute;right:clamp(4px,1.5vw,16px);top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid #A9C17A66;background:#1B2217;color:#F7F2E8;font-size:18px;font-family:'Playfair Display',serif;cursor:pointer;z-index:5;transition:border-color 200ms ease,color 200ms ease;" style-hover="border-color:#A9C17A;color:#A9C17A;">›</button>
+
+    <div class="review-stage" style="position:relative;width:100%;height:100%;overflow:hidden;padding:0 70px;box-sizing:border-box;">
+      <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="5">
+        <div style="{{ r.slotStyle }}">
+          <p style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(22px,3vw,32px);line-height:1.4;max-width:640px;margin:0 auto 24px;text-wrap:pretty;">„{{ r.text }}“</p>
+          <div style="font-size:14px;letter-spacing:0.3px;color:#CFC6B4;">{{ r.name }} · Google Reviews</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;text-align:center;padding-top:28px;font-size:12.5px;letter-spacing:1px;color:#CFC6B4;">{{ reviewCounter }}</div>
+</div>
+
+<div id="rezervacija" style="position: relative; width: 100%; overflow: hidden; font-family: 'Work Sans',sans-serif; color: #232B1E; isolation: isolate; padding: clamp(80px,11vh,120px) 0; background-color: #DDD3BF">
+  <div class="rez-grid" style="position: relative; z-index: 1; margin: 0 auto; display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr); gap: clamp(40px,6vw,80px); padding: 0 clamp(24px,5.5vw,80px); align-items: stretch;">
+
+    <div>
+      <div style="font-family: 'Playfair Display',serif; font-style: italic; font-weight: 500; font-size: clamp(32px,4vw,48px); line-height: 1.15; margin-top: -12px; margin-bottom: 40px;">Rezerviši svoj sto</div>
+      
+
+      <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+        <div style="padding-top:8px;">
+          <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:24px;margin-bottom:10px;color:#232B1E;">Hvala!</div>
+          <p style="font-size:15px;line-height:1.6;color:#232B1E;font-weight:300;">Kontaktiraćemo vas za potvrdu rezervacije na broj koji smo primili.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:22px;">
+
+        <div class="rez-sub" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;">
+          <div>
+            <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Ime i prezime</label>
+            <input class="rez-input" type="text" placeholder="Vaše ime" value="{{ form.name }}" onChange="{{ onNameChange }}">
+          </div>
+          <div>
+            <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Broj telefona</label>
+            <input class="rez-input" type="tel" inputMode="tel" pattern="[0-9+ /-]*" placeholder="06x xxx xxxx" value="{{ form.phone }}" onChange="{{ onPhoneChange }}">
+          </div>
+        </div>
+
+        <div class="rez-sub" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;">
+          <div>
+            <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Datum</label>
+            <input class="rez-input" type="date" value="{{ form.date }}" onChange="{{ onDateChange }}">
+          </div>
+          <div>
+            <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Broj gostiju</label>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <button class="rez-stepper-btn" onClick="{{ onGuestsDec }}">−</button>
+              <span style="font-family:'Playfair Display',serif;font-size:18px;min-width:20px;text-align:center;">{{ form.guests }}</span>
+              <button class="rez-stepper-btn" onClick="{{ onGuestsInc }}">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="position:relative;" ref="{{ timeDropdownRef }}">
+          <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Vreme</label>
+          <div class="rez-input" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onClick="{{ onToggleTimeDropdown }}">
+            <span style="{{ timeValueStyle }}">{{ timeDisplay }}</span>
+            <span style="color:#232B1E;font-size:12px;transform:{{ timeArrowTransform }};transition:transform 200ms ease;">▾</span>
+          </div>
+          <sc-if value="{{ timeDropdownOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:100%;left:0;right:0;margin-top:6px;background:#DDD3BF;border:1px solid #C4B9A3;box-shadow:0 12px 28px rgba(35,43,30,0.15);max-height:220px;overflow-y:auto;z-index:10;">
+              <sc-for list="{{ timeSlots }}" as="t" hint-placeholder-count="22">
+                <div style="{{ t.optionStyle }}" onClick="{{ t.onSelect }}" onMouseEnter="{{ t.onHover }}" onMouseLeave="{{ t.onUnhover }}">{{ t.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <div>
+          <label style="display:block;font-size:11.5px;letter-spacing:0.8px;text-transform:uppercase;color:#4A5240;margin-bottom:6px;">Napomena (opciono)</label>
+          <textarea class="rez-input" rows="3" placeholder="Rođendan, alergije, sto napolju..." style="resize:vertical;width:100%;display:block;" value="{{ form.note }}" onChange="{{ onNoteChange }}"></textarea>
+        </div>
+
+        <button onClick="{{ onSubmit }}" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:14px 32px;font-size:14px;background:#232B1E;border:1px solid #232B1E;color:#DDD3BF;margin-top:10px;align-self:flex-start;" style-hover="background:#34402C;border-color:#34402C;color:#DDD3BF;">Pošalji zahtev za rezervaciju</button>
+
+        <p style="font-size:13.5px;color:#4A5240;margin:8px 0 0;">Ukoliko imate neka pitanja, pozovite nas direktno:&nbsp;&nbsp;<a href="tel:021842333" style="color: #232B1E;text-decoration:underline;">021/842-333</a></p>
+      </div>
+      </sc-if>
+    </div>
+
+    <div style="position:relative;width:100%;min-height:360px;overflow:hidden;">
+      <image-slot id="reservation-photo" shape="rect" fit="cover" placeholder="atmosferska fotografija enterijera / peći na drva" src="images/tiffany-unutra.jpg" style="position:absolute;inset:0;width:100%;height:100%;filter:sepia(0.2) saturate(1.05) contrast(1.05) brightness(0.92);"></image-slot>
+      <div style="position:absolute;inset:0;box-shadow:inset 0 0 80px 30px #1B2217cc;pointer-events:none;"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:28px;background:rgba(27,34,23,0.82);color:#F7F2E8;">
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;margin-bottom:6px;">Tiffany Pizzeria</div><div style="font-size:13px;color:#CFC6B4;line-height:1.6;">Narodnog fronta 92<br>Temerin</div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+
+<div id="visit-us" style="position:relative;width:100%;background:#232B1E;color:#F7F2E8;font-family:'Work Sans',sans-serif;isolation:isolate;">
+  <div class="visit-grid" style="margin:0 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:80px;padding:clamp(80px,11vh,120px) clamp(24px,5.5vw,80px);align-items:stretch;">
+    <div style="min-width:0;">
+      <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(32px,4vw,48px);line-height:1.15;margin-bottom:16px;">Posetite nas</div>
+      <p style="font-size:15px;line-height:1.7;color:#CFC6B4;font-weight:300;max-width:420px;margin:0 0 28px;">Dođite u naš restoran u Temerinu i probajte picu pečenu u peći na drva.</p>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:6px;">Telefon</div>
+        <a href="tel:021842333" style="font-size:15px;color:#F7F2E8;">021/842-333</a><span style="color:#CFC6B4;"> · </span><a href="tel:0600842333" style="font-size:15px;color:#F7F2E8;">060/0842-333</a>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:6px;">Lokacija</div>
+        <div style="font-size:15px;color:#F7F2E8;line-height:1.5;">Narodnog fronta 92, Temerin</div>
+      </div>
+
+      <div>
+        <div style="font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:{{ accentColor }};margin-bottom:6px;">Radno vreme</div>
+        <div style="display:flex;justify-content:space-between;max-width:320px;font-size:15px;padding:4px 0;color:#F7F2E8;"><span>Utorak – Subota</span><span>15:00 – 23:00</span></div>
+        <div style="display:flex;justify-content:space-between;max-width:320px;font-size:15px;padding:4px 0;color:#F7F2E8;"><span>Nedelja</span><span>16:00 – 23:00</span></div>
+        <div style="display:flex;justify-content:space-between;max-width:320px;font-size:15px;padding:4px 0;color:#CFC6B4;"><span>Ponedeljak</span><span>Ne radimo</span></div>
+      </div>
+    </div>
+    <div class="visit-map" style="position:relative;width:100%;height:100%;min-height:320px;overflow:hidden;">
+      <iframe title="Mapa: Narodnog fronta 92, Temerin" src="https://www.google.com/maps?q=Narodnog+fronta+92,+Temerin,+Srbija&amp;z=16&amp;hl=sr-Latn&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(0.6) invert(0.9) hue-rotate(180deg) sepia(0.2) contrast(0.9);"></iframe>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Narodnog+fronta+92,+Temerin" target="_blank" rel="noopener" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:10px 22px;font-size:13px;background:#A9C17A;border:1px solid #A9C17A;color:#232B1E;position:absolute;left:16px;bottom:16px;" style-hover="background:#97AF68;border-color:#97AF68;color:#232B1E;">Otvori u Google mapama</a>
+    </div>
+  </div>
+
+  
+
+  <div style="max-width:1180px;margin:0 auto;padding:clamp(36px,5vh,48px) clamp(24px,5.5vw,80px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:32px;">
+    
+    
+  <div style="text-align: center">
+      <div style="font-family: 'Playfair Display',serif; font-style: normal; font-weight: 600; font-size: 19px; letter-spacing: 0.5px; text-transform: uppercase; color: #F7F2E8; margin-bottom: 14px; text-align: center">Tiffany Pizzeria</div>
+      <p style="font-size: 14px; line-height: 1.7; color: #CFC6B4; font-weight: 300; max-width: 380px; margin: 0 auto 16px; text-align: center;">Napolitanska picerija u Temerinu</p><a href="https://instagram.com/tiffany_pizzeria" target="_blank" style="font-size: 14px; color: #F7F2E8">@tiffany_pizzeria</a>
+      
+    </div></div>
+
+  
+</div>
+
+
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#A9C17A&quot;,&quot;options&quot;:[&quot;#B3282D&quot;,&quot;#9E2227&quot;,&quot;#A9C17A&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;autoRotate&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;rotateSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5,&quot;min&quot;:3,&quot;max&quot;:10,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  flavorDefs = [
+    { slug: 'margherita', name: 'Margherita', src: 'images/fb71a868.webp' },
+    { slug: 'diavolo', name: 'Diavolo', src: 'images/1f48f28a.webp' },
+    { slug: 'capricciosa', name: 'Capricciosa', src: 'images/3fec267b.webp' },
+    { slug: 'tiffany', name: 'Tiffany (signature)', src: 'images/6252629e.webp' },
+    { slug: 'venezia', name: 'Venezia', src: 'images/9d241238.webp' },
+    { slug: 'carbonara', name: 'Carbonara', src: 'images/c4168dd8.webp' },
+  ];
+
+  state = {
+    index: 0, dir: 1, busy: false,
+    revealed: { tiffany2: false, crudo: false, lardo: false, mafioso: false },
+    counterProgress: 0, countersStarted: false,
+    form: { name: '', phone: '', date: '', time: '', guests: 2, note: '' },
+    submitted: false,
+    timeDropdownOpen: false, timeHovered: null,
+    reviewIndex: 0,
+  };
+
+  reviewDefs = [
+    { name: 'Ana M.', text: 'Pizza je bila odlična, a atmosfera još bolja. Sigurno se vraćamo.' },
+    { name: 'Marko P.', text: 'Odlična hrana, prijatna atmosfera i usluga za svaku pohvalu.' },
+    { name: 'Jelena S.', text: 'Sve je bilo odlično od početka do kraja. Definitivno preporuka.' },
+    { name: 'Nikola R.', text: 'Jedno od onih mesta na koje se rado vraćamo.' },
+    { name: 'Milica T.', text: 'Hrana, ambijent i usluga, sve na svom mestu.' },
+  ];
+
+  counterDefs = [
+    { key: 'years', label: 'Godina tradicije', target: 15, suffix: '', decimals: 0 },
+    { key: 'awards', label: 'Osvojena priznanja u 2024.', target: 4, suffix: '', decimals: 0 },
+    { key: 'rating', label: 'Prosečna ocena gostiju', target: 4.8, suffix: '★', decimals: 1 },
+  ];
+
+  componentDidMount() {
+    if (this.props.autoRotate) this._startAuto();
+    if (!document.getElementById('tiffany-slot-fix')) {
+      const style = document.createElement('style');
+      style.id = 'tiffany-slot-fix';
+      style.textContent = 'image-slot::part(frame){background:transparent!important}image-slot::part(ring){display:none!important}';
+      document.head.appendChild(style);
+    }
+    this._checkReveal = () => {
+      const s = this.state.revealed;
+      let changed = null;
+      ['tiffany2', 'crudo', 'lardo', 'mafioso'].forEach((key) => {
+        if (s[key]) return;
+        const el = document.getElementById('reveal-' + key);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.88 && rect.bottom > 0) {
+          changed = changed || {};
+          changed[key] = true;
+        }
+      });
+
+      if (changed) this.setState((prev) => ({ revealed: { ...prev.revealed, ...changed } }));
+    };
+    window.addEventListener('scroll', this._checkReveal, { passive: true });
+    window.addEventListener('resize', this._checkReveal);
+    requestAnimationFrame(this._checkReveal);
+
+    this._checkCounters = () => {
+      if (this.state.countersStarted) return;
+      const el = document.getElementById('nagrade');
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+        this.setState({ countersStarted: true });
+        this._runCounterAnim();
+      }
+    };
+    window.addEventListener('scroll', this._checkCounters, { passive: true });
+    requestAnimationFrame(this._checkCounters);
+
+    this._onOutsideClick = (e) => {
+      if (this.state.timeDropdownOpen && this._timeDropdownEl && !this._timeDropdownEl.contains(e.target)) {
+        this.setState({ timeDropdownOpen: false });
+      }
+    };
+    document.addEventListener('mousedown', this._onOutsideClick);
+  }
+
+  _runCounterAnim() {
+    const duration = 1400;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      this.setState({ counterProgress: eased });
+      if (t < 1) this._counterRaf = requestAnimationFrame(step);
+    };
+    this._counterRaf = requestAnimationFrame(step);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.autoRotate !== this.props.autoRotate || prevProps.rotateSeconds !== this.props.rotateSeconds) {
+      this._stopAuto();
+      if (this.props.autoRotate) this._startAuto();
+    }
+  }
+
+  componentWillUnmount() {
+    this._stopAuto();
+    clearTimeout(this._busyTimer);
+    if (this._checkReveal) {
+      window.removeEventListener('scroll', this._checkReveal);
+      window.removeEventListener('resize', this._checkReveal);
+    }
+    if (this._checkCounters) window.removeEventListener('scroll', this._checkCounters);
+    if (this._counterRaf) cancelAnimationFrame(this._counterRaf);
+    if (this._onOutsideClick) document.removeEventListener('mousedown', this._onOutsideClick);
+  }
+
+  _startAuto() {
+    const secs = this.props.rotateSeconds ?? 5;
+    this._auto = setInterval(() => this.go(1), Math.max(3, secs) * 1000);
+  }
+  _stopAuto() {
+    if (this._auto) clearInterval(this._auto);
+  }
+
+  go(dir) {
+    if (this.state.busy) return;
+    const n = this.flavorDefs.length;
+    this.setState(s => ({ index: (s.index + dir + n) % n, dir, busy: true }));
+    clearTimeout(this._busyTimer);
+    this._busyTimer = setTimeout(() => this.setState({ busy: false }), 650);
+  }
+
+  jumpTo(i) {
+    if (this.state.busy || i === this.state.index) return;
+    const dir = i > this.state.index ? 1 : -1;
+    this.setState({ index: i, dir, busy: true });
+    clearTimeout(this._busyTimer);
+    this._busyTimer = setTimeout(() => this.setState({ busy: false }), 650);
+  }
+
+  reviewGo(dir) {
+    const n = this.reviewDefs.length;
+    this.setState((s) => ({ reviewIndex: (s.reviewIndex + dir + n) % n }));
+  }
+
+  renderVals() {
+    const { index, dir } = this.state;
+    const accentColor = this.props.accentColor ?? '#B3282D';
+    const flavors = this.flavorDefs.map((f, i) => {
+      const active = i === index;
+      const transform = active
+        ? 'translate(-50%,-50%) scale(1) rotate(0deg)'
+        : `translate(-50%,-50%) scale(0.8) rotate(${dir * 22}deg)`;
+      const slotStyle = `position:absolute;left:50%;top:50%;width:100%;height:100%;transform:${transform};opacity:${active ? 1 : 0};z-index:${active ? 2 : 1};pointer-events:${active ? 'auto' : 'none'};transition:opacity 620ms ease, transform 620ms cubic-bezier(.22,1,.36,1);`;
+      const nameStyle = `background:none;border:none;cursor:pointer;font-family:'Work Sans',sans-serif;font-size:13px;letter-spacing:0.8px;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid ${active ? '#A9C17A' : 'transparent'};color:${active ? '#A9C17A' : '#CFC6B4'};font-weight:${active ? 600 : 400};transition:color 300ms ease, border-color 300ms ease;`;
+      return {
+        slug: f.slug,
+        name: f.name,
+        src: f.src,
+        placeholderLabel: `${f.name}: pizza foto (transparent PNG)`,
+        slotStyle,
+        nameStyle,
+        onSelect: () => this.jumpTo(i),
+      };
+    });
+    const hidden = 'opacity:0;transform:rotate(-16deg) scale(0.86);transition:transform 900ms cubic-bezier(.22,1,.36,1), opacity 700ms ease;';
+    const shown = 'opacity:1;transform:rotate(0deg) scale(1);transition:transform 900ms cubic-bezier(.22,1,.36,1), opacity 700ms ease;';
+    const revealStyle = {
+      tiffany2: this.state.revealed.tiffany2 ? shown : hidden,
+      crudo: this.state.revealed.crudo ? shown : hidden,
+      lardo: this.state.revealed.lardo ? shown : hidden,
+      mafioso: this.state.revealed.mafioso ? shown : hidden,
+    };
+    const progress = this.state.counterProgress;
+    const counters = this.counterDefs.map((c) => ({
+      label: c.label,
+      display: (c.target * progress).toFixed(c.decimals) + c.suffix,
+    }));
+
+    const slots = [];
+    for (let h = 12; h < 23; h++) {
+      slots.push(`${String(h).padStart(2, '0')}:00`);
+      slots.push(`${String(h).padStart(2, '0')}:30`);
+    }
+    const timeSlots = slots.map((label) => {
+      const selected = this.state.form.time === label;
+      const hovered = this.state.timeHovered === label;
+      return {
+        label,
+        optionStyle: `padding:10px 14px;font-family:'Work Sans',sans-serif;font-size:14px;cursor:pointer;color:#232B1E;background:${selected || hovered ? 'rgba(169,193,122,0.2)' : 'transparent'};`,
+        onSelect: () => this.setState((s) => ({ form: { ...s.form, time: label }, timeDropdownOpen: false })),
+        onHover: () => this.setState({ timeHovered: label }),
+        onUnhover: () => this.setState({ timeHovered: null }),
+      };
+    });
+
+    return {
+      menuOpen: this.state.menuOpen ? "true" : "false", toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })), closeMenu: () => this.setState({ menuOpen: false }),
+      flavors,
+      busy: this.state.busy,
+      accentColor,
+      accentCC: accentColor + 'cc',
+      accent55: accentColor + '55',
+      accent30: accentColor + '30',
+      accent22: accentColor + '22',
+      revealStyle,
+      counters,
+      form: this.state.form,
+      timeSlots,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      onNameChange: (e) => this.setState((s) => ({ form: { ...s.form, name: e.target.value } })),
+      onPhoneChange: (e) => { const v = e.target.value.replace(/[^0-9+\s/-]/g, ''); this.setState((s) => ({ form: { ...s.form, phone: v } })); },
+      onDateChange: (e) => this.setState((s) => ({ form: { ...s.form, date: e.target.value } })),
+      onNoteChange: (e) => this.setState((s) => ({ form: { ...s.form, note: e.target.value } })),
+      timeDropdownOpen: this.state.timeDropdownOpen,
+      timeDisplay: this.state.form.time || 'Izaberite termin',
+      timeValueStyle: this.state.form.time ? 'color:#232B1E;' : 'color:#4A5240;',
+      timeArrowTransform: this.state.timeDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+      timeDropdownRef: (el) => { this._timeDropdownEl = el; },
+      onToggleTimeDropdown: () => this.setState((s) => ({ timeDropdownOpen: !s.timeDropdownOpen })),
+      onGuestsInc: () => this.setState((s) => ({ form: { ...s.form, guests: Math.min(12, s.form.guests + 1) } })),
+      onGuestsDec: () => this.setState((s) => ({ form: { ...s.form, guests: Math.max(1, s.form.guests - 1) } })),
+      onSubmit: () => this.setState({ submitted: true }),
+      prev: () => this.go(-1),
+      next: () => this.go(1),
+      reviews: this.reviewDefs.map((r, i) => {
+        const n = this.reviewDefs.length;
+        const ri = this.state.reviewIndex;
+        let delta = i - ri;
+        if (delta > n / 2) delta -= n;
+        if (delta < -n / 2) delta += n;
+        let style;
+        if (delta === 0) style = 'position:absolute;left:50%;top:50%;width:100%;transform:translate(-50%,-50%) scale(1);opacity:1;z-index:3;transition:all 600ms cubic-bezier(.22,1,.36,1);text-align:center;';
+        else if (delta === -1) style = 'position:absolute;left:0%;top:50%;width:38%;transform:translate(-100%,-50%) scale(0.8);opacity:0.22;z-index:1;transition:all 600ms cubic-bezier(.22,1,.36,1);text-align:center;pointer-events:none;';
+        else if (delta === 1) style = 'position:absolute;right:0%;top:50%;width:38%;transform:translate(100%,-50%) scale(0.8);opacity:0.22;z-index:1;transition:all 600ms cubic-bezier(.22,1,.36,1);text-align:center;pointer-events:none;';
+        else style = 'position:absolute;left:50%;top:50%;width:100%;transform:translate(-50%,-50%) scale(0.7);opacity:0;z-index:0;transition:all 600ms cubic-bezier(.22,1,.36,1);text-align:center;pointer-events:none;';
+        return { name: r.name, text: r.text, slotStyle: style };
+      }),
+      reviewCounter: String(this.state.reviewIndex + 1).padStart(2, '0') + ' / ' + String(this.reviewDefs.length).padStart(2, '0'),
+      reviewPrev: () => this.reviewGo(-1),
+      reviewNext: () => this.reviewGo(1),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

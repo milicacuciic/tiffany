@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&amp;family=Work+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; }
+    .site-nav .nav-burger { display: none !important; }
+    @media (max-width: 800px) {
+      .site-nav .nav-burger { display: flex !important; }
+      .site-nav .nav-links { display: none !important; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start !important; gap: 20px !important; padding: 16px 24px 28px; background: #DDD3BF; z-index: 20; }
+      .site-nav[data-open="true"] .nav-links { display: flex !important; }
+      .site-nav .nav-links a { font-size: 16px !important; }
+    }
+    a { color: #B3282D; text-decoration: none; }
+    a:hover { color: #34402C; }
+  </style>
+</helmet>
+<div style="position:relative;width:100%;min-height:100vh;background:#DDD3BF;overflow-x:hidden;font-family:'Work Sans',sans-serif;color:#232B1E;isolation:isolate;">
+
+  <nav class="site-nav" data-open="{{ menuOpen }}" style="position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(12px,2vh,20px) clamp(24px,5.5vw,80px);flex-wrap:nowrap;">
+    <a href="./index.html" style="font-family: 'Playfair Display',serif; font-style: normal; font-weight: 600; font-size: 20px; letter-spacing: 0.5px; color: #232B1E; white-space: nowrap; text-transform: uppercase;">Tiffany Pizzeria</a>
+    <button class="nav-burger" aria-label="Meni" onClick="{{ toggleMenu }}" style="display:none;width:44px;height:44px;align-items:center;justify-content:center;flex-direction:column;gap:5px;background:transparent;border:none;cursor:pointer;padding:0;"><span style="display:block;width:22px;height:1.5px;background:#232B1E;"></span><span style="display:block;width:22px;height:1.5px;background:#232B1E;"></span><span style="display:block;width:22px;height:1.5px;background:#232B1E;"></span></button>
+    <div class="nav-links" onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:clamp(10px,2vw,32px);flex-wrap:nowrap;">
+      <a href="./index.html" style="font-size:14px;letter-spacing:0.5px;color:#232B1E;white-space:nowrap;transition:color 200ms ease;" style-hover="color:#34402C;">Početna</a>
+      <a href="./nasa-prica.html" style="font-size:14px;letter-spacing:0.5px;color:#232B1E;white-space:nowrap;transition:color 200ms ease;" style-hover="color:#34402C;">Naša priča</a>
+      <a href="./index.html#rezervacija" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:10px 22px;font-size:13px;background:#232B1E;border:1px solid #232B1E;color:#DDD3BF;" style-hover="background:#34402C;border-color:#34402C;color:#DDD3BF;">Rezerviši sto</a>
+    </div>
+  </nav>
+
+  <div style="position:relative;z-index:1;text-align:center;padding:clamp(30px,6vh,56px) 24px clamp(24px,4vh,40px);">
+    
+    <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(40px,5.2vw,64px);line-height:1.06;">Pice</div>
+  </div>
+
+  <div style="position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 clamp(20px,4vw,48px) clamp(24px,4vh,40px);display:flex;flex-direction:column;gap:0;">
+    <div style="display:flex;justify-content:flex-end;gap:16px;padding:0 0 6px;">
+      <div style="display:flex;gap:10px;">
+        <span style="font-size:11px;letter-spacing:0.5px;color:#4A5240;width:76px;text-align:center;">∅32 cm</span>
+        <span style="font-size:11px;letter-spacing:0.5px;color:#4A5240;width:76px;text-align:center;">∅42 cm</span>
+      </div>
+    </div>
+    <sc-for list="{{ pizzas }}" as="p" hint-placeholder-count="16">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid #C4B9A3;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;margin-bottom:4px;">{{ p.name }}</div>
+          <p style="font-size:13.5px;line-height:1.55;color:#4A5240;font-weight:300;margin:0;">{{ p.desc }}</p>
+        </div>
+        <div style="flex-shrink:0;display:flex;gap:10px;font-family:'Playfair Display',serif;font-style:normal;font-size:16px;color:#1B2217;white-space:nowrap;">
+          <span style="width:76px;text-align:center;">{{ p.price32 }}</span>
+          <span style="width:76px;text-align:center;">{{ p.price42 }}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 clamp(20px,4vw,48px);text-align:right;">
+    <p style="font-size:13px;color:#4A5240;margin:0;">Cene su izražene u RSD.</p>
+  </div>
+
+  <div style="position:relative;z-index:1;text-align:center;padding:64px 24px clamp(60px,9vh,100px);">
+    <a href="./index.html#izdvojene" onClick="{{ goBack }}" style="display:inline-block;border-radius:999px;font-family:'Work Sans',sans-serif;font-weight:500;letter-spacing:0.5px;line-height:1.2;white-space:nowrap;text-decoration:none;cursor:pointer;transition:background 200ms ease,border-color 200ms ease,color 200ms ease;padding:10px 22px;font-size:13px;background:transparent;border:1px solid #232B1E;color:#232B1E;" style-hover="background:#232B1E;border-color:#232B1E;color:#DDD3BF;">← Nazad</a>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B3282D&quot;,&quot;options&quot;:[&quot;#B3282D&quot;,&quot;#9E2227&quot;,&quot;#A9C17A&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  pizzaDefs = [
+    { name: 'Margherita', desc: 'pelat, sir, origano', price32: '730', price42: '1050' },
+    { name: 'Romana', desc: 'pelat, sir, šunka, origano', price32: '850', price42: '1230' },
+    { name: 'Capricciosa', desc: 'pelat, sir, šunka, šampinjoni, origano', price32: '920', price42: '1280' },
+    { name: 'Signorina', desc: 'pelat, sir, šunka, šampinjoni, masline, origano', price32: '980', price42: '1350' },
+    { name: 'Siciliana', desc: 'pelat, sir, ljubičasti luk, kulen, umućeno jaje, šampinjoni, origano', price32: '1050', price42: '1390' },
+    { name: 'Pollo Bianca', desc: 'beli sos, sir, začinjeni pileći file u marinadi, crne masline, sveži bosiljak', price32: '1100', price42: '1480' },
+    { name: 'Lardo', desc: 'beli sos, sir, slanina, ljubičasti luk, spanać', price32: '1100', price42: '1480' },
+    { name: 'Diavolo', desc: 'pelat, sir, šunka, domaća kobasica, marinada, šampinjoni, ljuta tucana paprika, origano', price32: '1150', price42: '1650' },
+    { name: 'Venezia', desc: 'pelat, obod punjen sirom, susam po obodu, sir, šunka, šampinjoni, origano', price32: '1150', price42: '1650' },
+    { name: 'Mafioso', desc: 'pelat, sir, šunka, kulen, feferone, šampinjoni, ljuta tucana paprika, origano', price32: '1150', price42: '1650' },
+    { name: 'Vegetariana', desc: 'pelat, sir, šampinjoni, kukuruz šećerac, masline, marinada, sveža paprika, čeri paradajz, origano', price32: '1170', price42: '1590' },
+    { name: 'Posna Pizza', desc: 'pelat, biljni sir, tunjevina, šampinjoni, kukuruz šećerac, masline, marinada, susam, origano', price32: '1150', price42: '1550' },
+    { name: 'Carbonara', desc: 'pelat, sir, dimljeni vrat, suva pečenica, masline, origano', price32: '1250', price42: '1550' },
+    { name: 'Tuna', desc: 'pelat, sir, šampinjoni, kukuruz šećerac, masline, tunjevina, marinada, origano', price32: '1250', price42: '1750' },
+    { name: 'Tiffany', desc: 'pelat, sir, punjena rolo šunka, suvi vrat, šampinjoni, pavlaka, masline, origano', price32: '1390', price42: '1850' },
+    { name: 'Crudo e Rucola', desc: 'pelat, sir, italijanska pršut, rukola, parmezan sir, čeri paradajz, origano', price32: '1390', price42: '2100' },
+  ];
+
+  renderVals() {
+    const accentColor = this.props.accentColor ?? '#B3282D';
+    const pizzas = this.pizzaDefs.map((p) => ({
+      ...p,
+      price32: p.price32 + ' RSD',
+      price42: p.price42 + ' RSD',
+    }));
+    const goBack = (e) => {
+      const ref = document.referrer || '';
+      if (ref && ref.indexOf(location.origin) === 0 && ref.split('#')[0] !== location.href.split('#')[0]) {
+        e.preventDefault();
+        window.history.back();
+      }
+    };
+    return { accentColor, pizzas, goBack, menuOpen: this.state.menuOpen ? "true" : "false", toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })), closeMenu: () => this.setState({ menuOpen: false }), };
+  }
+}
+
+</script>
+</body>
+</html>
